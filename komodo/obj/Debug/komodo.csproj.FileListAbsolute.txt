@@ -1,0 +1,11 @@
+C:\Users\Justin\Dropbox\komodo\komodo\bin\Debug\komodo.exe.config
+C:\Users\Justin\Dropbox\komodo\komodo\bin\Debug\komodo.exe
+C:\Users\Justin\Dropbox\komodo\komodo\bin\Debug\komodo.pdb
+C:\Users\Justin\Dropbox\komodo\komodo\obj\Debug\komodo.csprojResolveAssemblyReference.cache
+C:\Users\Justin\Dropbox\komodo\komodo\obj\Debug\komodo.Properties.Resources.resources
+C:\Users\Justin\Dropbox\komodo\komodo\obj\Debug\komodo.csproj.GenerateResource.Cache
+C:\Users\Justin\Dropbox\komodo\komodo\obj\Debug\komodo.exe
+C:\Users\Justin\Dropbox\komodo\komodo\obj\Debug\komodo.pdb
+C:\Users\Justin\Dropbox\komodo\komodo\obj\Debug\komodo.MainForm.resources
+C:\Users\Justin\Dropbox\komodo\komodo\obj\Debug\komodo.MemoryReader.resources
+C:\Users\Justin\Dropbox\komodo\komodo\obj\Debug\komodo.Form_ProcessList.resources
