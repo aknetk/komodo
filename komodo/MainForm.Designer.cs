@@ -43,17 +43,20 @@
             this.ColumnSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPerms = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.buttonFirstScan = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.buttonFirstScan = new System.Windows.Forms.Button();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -62,6 +65,7 @@
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPages)).BeginInit();
             this.panel4.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -125,6 +129,9 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column_Address,
@@ -133,14 +140,21 @@
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(724, 515);
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(724, 493);
             this.dataGridView1.TabIndex = 2;
+            this.dataGridView1.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.dataGridView1_CellContextMenuStripNeeded);
+            this.dataGridView1.Click += new System.EventHandler(this.dataGridView1_Click);
+            this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
+            this.dataGridView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseClick);
             // 
             // Column_Address
             // 
             this.Column_Address.HeaderText = "Address";
             this.Column_Address.Name = "Column_Address";
+            this.Column_Address.ReadOnly = true;
             // 
             // Column_Value
             // 
@@ -148,6 +162,7 @@
             this.Column_Value.FillWeight = 33F;
             this.Column_Value.HeaderText = "Value";
             this.Column_Value.Name = "Column_Value";
+            this.Column_Value.ReadOnly = true;
             // 
             // Column_Previous
             // 
@@ -155,6 +170,7 @@
             this.Column_Previous.FillWeight = 33F;
             this.Column_Previous.HeaderText = "Previous";
             this.Column_Previous.Name = "Column_Previous";
+            this.Column_Previous.ReadOnly = true;
             // 
             // panel1
             // 
@@ -163,7 +179,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 49);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1056, 515);
+            this.panel1.Size = new System.Drawing.Size(1056, 493);
             this.panel1.TabIndex = 3;
             // 
             // panel2
@@ -172,7 +188,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(724, 515);
+            this.panel2.Size = new System.Drawing.Size(724, 493);
             this.panel2.TabIndex = 3;
             // 
             // panel3
@@ -182,7 +198,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel3.Location = new System.Drawing.Point(724, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(332, 515);
+            this.panel3.Size = new System.Drawing.Size(332, 493);
             this.panel3.TabIndex = 4;
             // 
             // dataGridViewPages
@@ -204,7 +220,7 @@
             this.dataGridViewPages.RowHeadersVisible = false;
             this.dataGridViewPages.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dataGridViewPages.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewPages.Size = new System.Drawing.Size(332, 364);
+            this.dataGridViewPages.Size = new System.Drawing.Size(332, 342);
             this.dataGridViewPages.TabIndex = 10;
             // 
             // ColumnAddr
@@ -238,6 +254,43 @@
             this.ColumnType.ReadOnly = true;
             this.ColumnType.Width = 56;
             // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.buttonFirstScan);
+            this.panel4.Controls.Add(this.button2);
+            this.panel4.Controls.Add(this.label4);
+            this.panel4.Controls.Add(this.label1);
+            this.panel4.Controls.Add(this.comboBox2);
+            this.panel4.Controls.Add(this.maskedTextBox1);
+            this.panel4.Controls.Add(this.comboBox1);
+            this.panel4.Controls.Add(this.checkBox1);
+            this.panel4.Controls.Add(this.label3);
+            this.panel4.Controls.Add(this.label2);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(0, 0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(332, 151);
+            this.panel4.TabIndex = 11;
+            // 
+            // buttonFirstScan
+            // 
+            this.buttonFirstScan.Location = new System.Drawing.Point(3, 3);
+            this.buttonFirstScan.Name = "buttonFirstScan";
+            this.buttonFirstScan.Size = new System.Drawing.Size(75, 23);
+            this.buttonFirstScan.TabIndex = 0;
+            this.buttonFirstScan.Text = "First Scan";
+            this.buttonFirstScan.UseVisualStyleBackColor = true;
+            this.buttonFirstScan.Click += new System.EventHandler(this.buttonFirstScan_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(85, 3);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "Next Scan";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -246,6 +299,15 @@
             this.label4.Size = new System.Drawing.Size(64, 13);
             this.label4.TabIndex = 9;
             this.label4.Text = "Value Type:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(2, 29);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(37, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Value:";
             // 
             // comboBox2
             // 
@@ -265,6 +327,13 @@
             this.comboBox2.Size = new System.Drawing.Size(326, 21);
             this.comboBox2.TabIndex = 8;
             // 
+            // maskedTextBox1
+            // 
+            this.maskedTextBox1.Location = new System.Drawing.Point(3, 48);
+            this.maskedTextBox1.Name = "maskedTextBox1";
+            this.maskedTextBox1.Size = new System.Drawing.Size(157, 20);
+            this.maskedTextBox1.TabIndex = 3;
+            // 
             // comboBox1
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -278,6 +347,17 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(326, 21);
             this.comboBox1.TabIndex = 7;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.checkBox1.Location = new System.Drawing.Point(171, 50);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(15, 14);
+            this.checkBox1.TabIndex = 4;
+            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -297,69 +377,28 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Hex?";
             // 
-            // checkBox1
+            // statusStrip1
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.BottomRight;
-            this.checkBox1.Location = new System.Drawing.Point(171, 50);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(15, 14);
-            this.checkBox1.TabIndex = 4;
-            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.toolStripProgressBar1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 542);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1056, 22);
+            this.statusStrip1.TabIndex = 5;
+            this.statusStrip1.Text = "statusStrip1";
             // 
-            // maskedTextBox1
+            // toolStripStatusLabel1
             // 
-            this.maskedTextBox1.Location = new System.Drawing.Point(3, 48);
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(157, 20);
-            this.maskedTextBox1.TabIndex = 3;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(61, 17);
+            this.toolStripStatusLabel1.Text = "Progress...";
             // 
-            // label1
+            // toolStripProgressBar1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(2, 29);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Value:";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(85, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Next Scan";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // buttonFirstScan
-            // 
-            this.buttonFirstScan.Location = new System.Drawing.Point(3, 3);
-            this.buttonFirstScan.Name = "buttonFirstScan";
-            this.buttonFirstScan.Size = new System.Drawing.Size(75, 23);
-            this.buttonFirstScan.TabIndex = 0;
-            this.buttonFirstScan.Text = "First Scan";
-            this.buttonFirstScan.UseVisualStyleBackColor = true;
-            this.buttonFirstScan.Click += new System.EventHandler(this.buttonFirstScan_Click);
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.buttonFirstScan);
-            this.panel4.Controls.Add(this.button2);
-            this.panel4.Controls.Add(this.label4);
-            this.panel4.Controls.Add(this.label1);
-            this.panel4.Controls.Add(this.comboBox2);
-            this.panel4.Controls.Add(this.maskedTextBox1);
-            this.panel4.Controls.Add(this.comboBox1);
-            this.panel4.Controls.Add(this.checkBox1);
-            this.panel4.Controls.Add(this.label3);
-            this.panel4.Controls.Add(this.label2);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(332, 151);
-            this.panel4.TabIndex = 11;
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            this.toolStripProgressBar1.Step = 1;
             // 
             // MainForm
             // 
@@ -369,6 +408,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.statusStrip1);
             this.Enabled = false;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
@@ -386,6 +426,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPages)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -423,5 +465,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPerms;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnType;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
     }
 }

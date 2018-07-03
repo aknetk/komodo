@@ -1,4 +1,4 @@
-main.o: C:/Users/Justin/Dropbox/komodo/service/source/main.cpp \
+main.o: C:/Users/Justin/Documents/GitHub/komodo/service/source/main.cpp \
  C:/devkitPro/libnx/include/switch.h \
  C:/devkitPro/libnx/include/switch/types.h \
  C:/devkitPro/libnx/include/switch/result.h \

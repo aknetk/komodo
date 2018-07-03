@@ -1,0 +1,30 @@
+// this will probably be a separate program
+
+1. serviceCreate(Service* s, Handle h); // "komodo" // this function is apparently a member of trn::ipc::server::IPCServer::Create(&event_waiter))
+2. read nro file "/switch/komodo/service.nro"
+3. create thread // trn_thread_create(&thread, void function(), (void*)data, 58, -2, 1024 * 64, NULL));
+4. start thread
+5. initialize SM
+6. get service (&sess, "komodo")
+
+https://github.com/misson20000/twili/blob/master/twili.cpp
+
+
+
+ 	                          char* data, size_t data_offset,                  size_t data_length,           size_t virt_length,           uint32_t permissions);	
+	r = AppendSegment(Segment(nro,        nro_header->segments[0].file_offset, nro_header->segments[0].size, nro_header->segments[0].size, 5)); // .text is RX
+	if(!r) { return r; }
+	if(r) { base = *r; }
+
+ 	                          char* data, size_t data_offset,                  size_t data_length,           size_t virt_length,           uint32_t permissions);	
+	r = AppendSegment(Segment(nro,        nro_header->segments[1].file_offset, nro_header->segments[1].size, nro_header->segments[1].size, 1)); // .rodata is R
+	if(!r) { return r; }
+
+ 	                          char* data, size_t data_offset,                  size_t data_length,           size_t virt_length,                                  uint32_t permissions);	
+	r = AppendSegment(Segment(nro,        nro_header->segments[2].file_offset, nro_header->segments[2].size, nro_header->segments[2].size + nro_header->bss_size, 3)); // .data + .bss is RW
+	if(!r) { return r; }
+	return base;
+
+
+
+B7730003 CF FF FF 1F EF FF FF 3F EF 07 E6 47 EF FF FF 7F EF FF F7 9F EF 1F 00 A0 FF 9F 00 00 FF 3F 18 00 FF 7F 00 02 FF FF 06 00

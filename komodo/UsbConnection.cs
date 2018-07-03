@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Net;
@@ -8,15 +9,80 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Emgu.CV;
+using Emgu.CV.CvEnum;
+using Emgu.CV.Structure;
+using System.Runtime.InteropServices;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
+using System.IO.Compression;
+using System.Diagnostics;
+using zlib;
+using BitMiracle.LibJpeg.Classic;
+using System.Reflection;
+
 namespace komodo {
+
     public class UsbConnection {
+
         public Socket serv;
         public bool useUSB = false;
         public int Handle = 0;
+        public SerialPort sp;
+
+        public byte[] Combine(byte[] first, byte[] second) {
+            /*byte[] ret = new byte[first.Length + second.Length];
+            Buffer.BlockCopy(first, 0, ret, 0, first.Length);
+            Buffer.BlockCopy(second, 0, ret, first.Length, second.Length);*/
+
+            IEnumerable<byte> rv = first.Concat(second);
+
+            return rv.ToArray();
+        }
+        public byte[] Combine(byte[] a, byte[] b, byte[] c) {
+            /*byte[] ret = new byte[a.Length + b.Length + c.Length];
+            int off = 0;
+            Buffer.BlockCopy(a, 0, ret, off, a.Length);
+            off += a.Length;
+            Buffer.BlockCopy(b, 0, ret, off, b.Length);
+            off += b.Length;
+            Buffer.BlockCopy(c, 0, ret, off, c.Length);*/
+            IEnumerable<byte> ret = a.Concat(b).Concat(c);
+            return ret.ToArray();
+        }
+        public byte[] Combine(byte[] a, byte[] b, byte[] c, byte[] d) {
+            /*byte[] ret = new byte[a.Length + b.Length + c.Length + d.Length];
+            int off = 0;
+            Buffer.BlockCopy(a, 0, ret, off, a.Length);
+            off += a.Length;
+            Buffer.BlockCopy(b, 0, ret, off, b.Length);
+            off += b.Length;
+            Buffer.BlockCopy(c, 0, ret, off, c.Length);
+            off += c.Length;
+            Buffer.BlockCopy(d, 0, ret, off, d.Length);*/
+            IEnumerable<byte> ret = a.Concat(b).Concat(c).Concat(d);
+            return ret.ToArray();
+        }
+        public byte[] Combine(byte[] a, byte[] b, byte[] c, byte[] d, byte[] e) {
+            /*byte[] ret = new byte[a.Length + b.Length + c.Length + d.Length + e.Length];
+            int off = 0;
+            Buffer.BlockCopy(a, 0, ret, off, a.Length);
+            off += a.Length;
+            Buffer.BlockCopy(b, 0, ret, off, b.Length);
+            off += b.Length;
+            Buffer.BlockCopy(c, 0, ret, off, c.Length);
+            off += c.Length;
+            Buffer.BlockCopy(d, 0, ret, off, d.Length);
+            off += d.Length;
+            Buffer.BlockCopy(e, 0, ret, off, e.Length);*/
+            IEnumerable<byte> ret = a.Concat(b).Concat(c).Concat(d).Concat(e);
+            return ret.ToArray();
+        }
 
         public UsbConnection() {
             if (useUSB) {
-                SerialPort sp = new SerialPort("ATX", 115200);
+                sp = new SerialPort("Nintendo Switch", 115200);
                 //sp.Write(writebytes, 0, writebytes.Length);
 
                 if (sp == null) {
@@ -24,7 +90,7 @@ namespace komodo {
                 }
                 else {
                     Console.WriteLine("Komodo over USB found!");
-                    sp.Close();
+                    //sp.Close();
                 }
 
                 /*byte[] readbytes = new byte[sp.BytesToRead];
@@ -32,10 +98,10 @@ namespace komodo {
             }
             else {
 
-                IPAddress ipAddr = Dns.GetHostEntry("192.168.1.13").AddressList[0]; //new IPAddress(new byte[] { 192, 168, 1, 13 });
+                IPAddress ipAddr = Dns.GetHostEntry("192.168.1.9").AddressList[0]; //new IPAddress(new byte[] { 192, 168, 1, 13 });
 
                 serv = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                serv.Connect(ipAddr, 0xDEAD);
+                serv.Connect(ipAddr, 0xDEAF);
 
                 Console.WriteLine("Komodo over TCP/IP found!");
             }
@@ -43,41 +109,53 @@ namespace komodo {
 
         public byte[] Read(int size) {
             byte[] buffer = new byte[size];
-            int total = 0;
-            int offset = 0;
-            while (total < size) {
-                int count = 0;
-                if (useUSB) {
-
+            try {
+                int total = 0;
+                int offset = 0;
+                while (total < size) {
+                    int count = 0;
+                    if (useUSB) {
+                        count = sp.Read(buffer, offset, size - total);
+                    }
+                    else {
+                        count = serv.Receive(buffer, offset, size - total, SocketFlags.None);
+                    }
+                    if (count <= 0)
+                        return null;
+                    total += count;
+                    offset += count;
                 }
-                else {
-                    count = serv.Receive(buffer, offset, size - total, SocketFlags.None);
-                }
-                if (count <= 0)
-                    return null;
-                total += count;
-                offset += count;
+                //Console.WriteLine("KConn << Read " + total + " bytes.");
+            }
+            catch (Exception e) {
+                //Application.Exit();
             }
             return buffer;
         }
         public void Write(byte[] buffer) {
-            int size = buffer.Length;
-            int total = 0;
-            int offset = 0;
-            while (total < size) {
-                int count = 0;
-                if (useUSB) {
-
+            try {
+                int size = buffer.Length;
+                int total = 0;
+                int offset = 0;
+                while (total < size) {
+                    int count = 0;
+                    if (useUSB) {
+                        sp.Write(buffer, offset, size - total);
+                        count = size - total;
+                    }
+                    else {
+                        count = serv.Send(buffer, offset, size - total, SocketFlags.None);
+                    }
+                    if (count <= 0)
+                        return;
+                    total += count;
+                    offset += count;
                 }
-                else {
-                    count = serv.Send(buffer, offset, size - total, SocketFlags.None);
-                }
-                if (count <= 0)
-                    return;
-                total += count;
-                offset += count;
+                //Console.WriteLine("KConn >> Sent " + total + " bytes.");
             }
-            Console.WriteLine("KConn >> Sent " + total + " bytes.");
+            catch (Exception e) {
+                //Application.Exit();
+            }
         }
 
         public int  GetU8(byte[] buffer, int from) {
@@ -123,7 +201,7 @@ namespace komodo {
 
             KResponse resp;
             // Send code for "Attach Processes"
-            Write(BitConverter.GetBytes(255));
+            Write(BitConverter.GetBytes(128));
         }
         public long[] CmdListProcesses() {
             KResponse resp;
@@ -207,15 +285,37 @@ namespace komodo {
             byte[] hdl = BitConverter.GetBytes(handle);
             byte[] sze = BitConverter.GetBytes(size);
             byte[] adr = BitConverter.GetBytes(addr);
-            Write(new byte[] { hdl[0], hdl[1], hdl[2], hdl[3], sze[0], sze[1], sze[2], sze[3], adr[0], adr[1], adr[2], adr[3], adr[4], adr[5], adr[6], adr[7] });
+            Write(Combine(hdl, sze, adr));
             // Get response
             resp = ReadResponse();
             CheckResult(resp);
 
             return resp.Data;
         }
+        public void CmdWriteMemory(int handle, ulong addr, uint value)
+        {
+            KResponse resp;
+
+            // Send code for "Write Memory"
+            Write(BitConverter.GetBytes(9));
+            byte[] hdl = BitConverter.GetBytes(handle);
+            byte[] sze = BitConverter.GetBytes(value);
+            byte[] adr = BitConverter.GetBytes(addr);
+            Write(Combine(hdl, sze, adr));
+            // Get response
+            resp = ReadResponse();
+            CheckResult(resp);
+        }
 
         /*
+
+    def cmdWriteMemory32(self, handle, addr, val): # Cmd9
+        with self.lock:
+            self.write(struct.pack('<I', 9))
+            self.write(struct.pack('<IIQ', handle, val, addr))
+            resp = self.readResponse()
+
+        self.checkResult(resp)
 
     def cmdContinueDbgEvent(self, handle, flags, thread_id): # Cmd6
         with self.lock:
@@ -238,14 +338,6 @@ namespace komodo {
         with self.lock:
             self.write(struct.pack('<I', 8))
             self.write(struct.pack('<I', handle))
-            resp = self.readResponse()
-
-        self.checkResult(resp)
-
-    def cmdWriteMemory32(self, handle, addr, val): # Cmd9
-        with self.lock:
-            self.write(struct.pack('<I', 9))
-            self.write(struct.pack('<IIQ', handle, val, addr))
             resp = self.readResponse()
 
         self.checkResult(resp)
